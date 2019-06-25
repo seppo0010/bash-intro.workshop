@@ -100,6 +100,15 @@ OK
 $ if [ 4 == 4 ] && ( [ 3 == 2 ] || [ 5 == 4 ] ); then echo OK; fi
 ```
 
+### `elif` y `else`
+
+```bash
+$ if [ 3 == 4 ]; then echo OK; else echo not OK; fi
+not OK
+$ if [ 3 == 4 ]; then echo OK; elif [ 5 -gt 4 ] echo not OK; fi
+not OK
+```
+
 ## `for`
 
 Para iterar existe el `for` que en realidad funciona más como un `foreach`. La sintaxis es
