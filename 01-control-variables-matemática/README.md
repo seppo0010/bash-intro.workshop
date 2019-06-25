@@ -99,3 +99,69 @@ $ if [ 4 == 4 ] && ( [ 3 == 3 ] || [ 5 == 4 ] ); then echo OK; fi
 OK
 $ if [ 4 == 4 ] && ( [ 3 == 2 ] || [ 5 == 4 ] ); then echo OK; fi
 ```
+
+## `for`
+
+Para iterar existe el `for` que en realidad funciona más como un `foreach`. La sintaxis es
+`for variable in list; do statements; done`
+
+```bash
+$ for value in a b c d e f; do echo $value; done
+a
+b
+c
+d
+e
+f
+```
+
+Esto se puede usar en conjunto con _brace expansion_ para iterar una cantidad determinada de veces
+
+```bash
+$ for value in {a..f}; do echo $value; done
+a
+b
+c
+d
+e
+f
+```
+
+## Matemática
+
+Para hacer operaciones matemáticas se usa `$(( math ))`.
+
+```bash
+$ echo $(( 10 + 3 * 2 ))
+16
+```
+
+# Tarea
+
+## Fizz buzz
+
+Escribir un programa que muestre en pantalla los números del 1 al 100, sustituyendo los múltiplos
+de 3 por el palabro "Fizz" y, a su vez, los múltiplos de 5 por "Buzz". Para los números que, al
+tiempo, son múltiplos de 3 y 5, utiliza el combinado "FizzBuzz".
+
+Empezaría algo así:
+
+```
+1
+2
+Fizz
+4
+Buzz
+Fizz
+7
+8
+Fizz
+Buzz
+11
+Fizz
+13
+14
+FizzBuzz
+16
+...
+```
