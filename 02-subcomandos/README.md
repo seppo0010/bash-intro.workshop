@@ -105,3 +105,11 @@ $ echo $?
 
 Un código 0 indica éxito. Uno distinto a 0 indica fallo. Cada comando establece el significado de
 los distintos valores posibles.
+
+# Tarea
+
+## Contar palabras
+
+Contar cuántas palabras hay en el Zen de Python, que se obtiene al ejecutar
+`python -m this`. Si queremos ver la cantidad de palabras podemos usar `wc -w`,
+para cantidad de líneas `wc -l`; más información en `man wc`.
