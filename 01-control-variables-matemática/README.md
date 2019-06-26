@@ -38,8 +38,8 @@ vacío.
 ### `export`
 
 Algunas veces vamos a ver que antes de asignar un valor a una variable se antepone la palabra
-`export`. Esto permite que la variable se propague hacia los subprocesos. El concepto de subproceso
-lo vamos a ver más en detalle luego.
+`export`. Esto permite que la variable se propague hacia los subprocesos como variable de entorno.
+El concepto de subproceso lo vamos a ver más en detalle luego.
 
 ```bash
 $ salute_noexport=hello
@@ -49,6 +49,9 @@ $ export salute_export=hello
 $ bash -c 'echo $salute_export'
 hello
 ```
+
+Por convención las variables se escriben en minúsculas excepto las de entorno que se usan
+completamente en mayúsculas.
 
 ## `if`
 
