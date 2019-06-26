@@ -146,3 +146,10 @@ Volver a obtener el Zen de Python y pasarlo completamente a mayúsculas.
 ## Hashear una cadena aleatoria
 
 Leer 60 bytes aleatorios y calcular el sha1. Usar `head` y `sha1sum`.
+
+## Mostrar la hora aleatoriamente
+
+Cada un segundo mostrar la hora actual con un 50% de probabilidad.
+`while true; do statements; done` se puede hacer un loop infinito. Con `date` se puede imprimir la
+fecha. La variable `RANDOM` tiene un valor diferente cada vez que se lee en el rango de 0 a 32767.
+Para que sea sólo una vez por segundo se puede usar la función `sleep`.
