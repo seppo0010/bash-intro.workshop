@@ -104,7 +104,27 @@ $ echo $?
 ```
 
 Un código 0 indica éxito. Uno distinto a 0 indica fallo. Cada comando establece el significado de
-los distintos valoresú posibles.
+los distintos valores posibles.
+
+Los condicionales que usamos en el if en realidad usan esto para evaluar.
+
+```bash
+$ [ 1 == 1 ]
+$ echo $?
+0
+$ [ 1 == 2 ]
+$ echo $?
+1
+```
+
+Entonces podemos usar cualquier comando para ver si tiene éxito como condición en un `if`. Por
+ejemplo si queremos ver si un archivo contiene una cadena:
+
+```bash
+$ if grep -q "cadena" README.md; then echo "contiene!"; fi
+```
+
+Acá usamos `grep` que devuelve 0 sólo si se encuentra la cadena en el archivo.
 
 # Tarea
 
