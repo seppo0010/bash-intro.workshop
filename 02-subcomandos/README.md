@@ -54,6 +54,11 @@ $ cat myfile
 Hay un archivo especial en sistemas UNIX que es `/dev/null` que es un archivo que siempre está
 vacío y escribir en él no hace nada. Se usa cuando uno quiere descartar la salida del programa.
 
+### `/dev/urandom`
+
+Otro archivo especial es `/dev/urandom` que genera contenido aleatorio constantemente. Si bien es
+un archivo, es un archivo que cada vez que se lee genera distintos datos infinitamente.
+
 ## stdout, stderr
 
 Cuando hablamos de la salida de un programa en realidad hablabamos del `stdout`, pero el mismo
@@ -137,3 +142,7 @@ para cantidad de líneas `wc -l`; más información en `man wc`.
 ## Pasar el zen a mayúsculas
 
 Volver a obtener el Zen de Python y pasarlo completamente a mayúsculas.
+
+## Hashear una cadena aleatoria
+
+Leer 60 bytes aleatorios y calcular el sha1. Usar `head` y `sha1sum`.
