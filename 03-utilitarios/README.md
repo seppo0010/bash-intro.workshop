@@ -176,3 +176,21 @@ pero se pueden mandar otras.
 ## Contar ocurrencias de palabras
 
 Buscar cuáles son las cinco palabras que aparecen más veces en el Zen de Python.
+
+## Contar la cantidad de archivos en un directorio
+
+Mostrar cuántos archivos salen de un directorio incluyendo subdirectorios.
+Por ejemplo
+
+```bash
+$ mkdir a
+$ mkdir a/b
+$ echo "" > a/b/c
+$ echo "" > a/b/d
+$ mkdir e
+$ echo "" > e/f
+$ echo "" > e/g
+$ echo "" > e/h
+```
+
+En este caso debería mostrar 2 para `a` y 3 para `e`.
