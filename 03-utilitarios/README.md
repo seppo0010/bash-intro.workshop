@@ -139,6 +139,20 @@ $ uniq -c file
       2 3
 ```
 
+### `awk`
+
+Gawk es un lenguaje de programación pero en general en Bash se lo usa para extraer una columna de
+un csv.
+
+Por ejemplo
+
+```bash
+$ printf "1 2 3 4\n5 6 7 8\n9 10 11 12\n" |awk '{ print $3 }'
+3
+7
+11
+```
+
 ## Procesos
 
 ### `top`
@@ -156,3 +170,9 @@ operativo
 
 `kill` le manda una señal a un proceso identificador por PID. Por defecto la señal es de que salga
 pero se pueden mandar otras.
+
+# Tarea
+
+## Contar ocurrencias de palabras
+
+Buscar cuáles son las cinco palabras que aparecen más veces en el Zen de Python.
