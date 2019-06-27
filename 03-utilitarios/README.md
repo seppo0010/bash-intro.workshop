@@ -194,3 +194,7 @@ $ echo "" > e/h
 ```
 
 En este caso debería mostrar 2 para `a` y 3 para `e`.
+
+## Procesos consumiendo CPU%
+
+Con `ps aux` buscar los procesos que más CPU están consumiendo. Mostrar su PID y el comando.
