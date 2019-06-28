@@ -43,4 +43,23 @@ $ ls -l file
 En este caso le dimos permiso de lectura y escritura al usuario y al grupo, y de ejecución sólo al
 usuario.
 
-Una vez que el archivo tiene su shebang y permisos, se puede ejecutar con `./myscript`.
+Una vez que el archivo tiene su shebang y permisos, se puede ejecutar con `./myscript`. Por
+convención los nombres de archivos bash suelen terminar en `.sh` pero no es necesario.
+
+## Parámetros
+
+Cuando se invoca al script se le pueden pasar parámetros, por ejemplo `./myscript test`. Estos
+aparece en algunas variables mágicas: `$0` es el nombre del archivo ejecutado, `$1` el primer
+parámetro, `$2` el segundo, etc. También `$#` es la cantidad de parámetros recibidos y `$*` son
+todos los parámetros (equivalente a `$1 $2 $3 $4...`).
+
+```bash
+$ echo 'echo "cantidad de argumentos: $#";printf "longitud del primer argumento: "; echo -n $1|wc -c' > myscript
+$ chmod a+x myscript
+$ ./myscript hello
+cantidad de argumentos: 1
+longitud del primer argumento: 5
+$ ./myscript hello world
+cantidad de argumentos: 2
+longitud del primer argumento: 5
+```
