@@ -46,6 +46,32 @@ usuario.
 Una vez que el archivo tiene su shebang y permisos, se puede ejecutar con `./myscript`. Por
 convención los nombres de archivos bash suelen terminar en `.sh` pero no es necesario.
 
+### `sudo`
+
+Algunos comandos requieren permisos de _superusuario_ para correr. Si corren así pueden hacer
+_cualquier cosa_ en el sistema: abrir servidores en puertos privilegiados (como el 80 o 443),
+modificar archivos de configuración de otros programas, modificar el sistema operativo, ver y
+cambiar archivos de otros usuarios del mismo sistema.
+
+Por ejemplo si quiero empezar un servidor web en el puerto 80 no voy a poder sin sudo
+
+```bash
+$ python -m SimpleHTTPServer 80
+Traceback (most recent call last):
+...
+socket.error: [Errno 13] Permission denied
+$ sudo python -m SimpleHTTPServer 80
+[sudo] password for sebastianwaisbrot:
+Serving HTTP on 0.0.0.0 port 80 ...
+```
+
+Ahora bien, si cuando recibimos un `Permission denied` agregamos `sudo` puede que el comando se
+ejecute con éxito pero si el problema podía ser resuelto sin eso quizás era mejor, porque por
+ejemplo el dueño de cualquier archivo creado usando `sudo` va a ser `root` y no nuestro usuario.
+
+Idealmente cuando pase esto hay que entender qué es lo que quiso hacer el programa, por qué
+necesitaba permisos especiales y pensar en base a eso cuál es la mejor solución.
+
 ## Parámetros
 
 Cuando se invoca al script se le pueden pasar parámetros, por ejemplo `./myscript test`. Estos
