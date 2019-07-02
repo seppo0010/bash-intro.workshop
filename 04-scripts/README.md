@@ -89,3 +89,109 @@ $ ./myscript hello world
 cantidad de argumentos: 2
 longitud del primer argumento: 5
 ```
+
+## `set`
+
+El manejo de errores en bash es peculiar. No hay excepciones y depende mucho del _exit status_ de
+cada invocación. Por defecto los errores se ignoran y hay que chequearlo cada vez, o cambiar ciertas
+opciones para simplificarlo.
+
+### `set -e`
+
+Por defecto un script va a correr hasta el final, independientemente de si algún comando falle. En
+general, si algo falla puede hacer que lo que siga no funcione o peor aún funcione incorrectamente.
+Por ejemplo, si cambiamos de directorio (`cd`) y después queremos borrar algún directorio de ahí
+(`rm -rf <directory>`), si el primer comando falló, por ejemplo si el directorio no existe, el
+segundo comando puede borrar un directorio de otro lugar, una acción destructiva no reversible.
+
+Para evitar estos errores se puede configurar al archivo para que falle frente al primer fallo.
+
+```bash
+#!/bin/bash
+set -e # sin esta linea, `expected-dir` sería borrado en este directorio si cd falló
+cd non-existent-directory
+rm -rf expected-dir
+```
+
+### `set -o pipefail`
+
+Algo parecido pasa con los pipes. Si hacemos `cmd1 |cmd2` y `cmd1` falla el error se pierde.
+
+```bash
+$ cat test 
+#!/bin/bash
+set -e
+ls non-existant|cat
+echo "todo bien"
+$ ./test 
+ls: cannot access 'non-existant': No such file or directory
+todo bien
+```
+
+```bash
+$ cat test 
+#!/bin/bash
+set -e
+set -o pipefail
+ls non-existant|cat
+echo "todo bien"
+$ ./test 
+ls: cannot access 'non-existant': No such file or directory
+```
+
+### `set -u`
+
+Si usamos una variable no definida por defecto va a ser reemplazada por un valor vacío. A veces esto
+está bien pero a veces no, especialmente si metimos un typo en el nombre de la variable :).
+Entonces se puede hacer que el script falle si se usa una variable no definida.
+
+```bash
+$ cat test 
+#!/bin/bash
+set -eo pipefail
+echo $myvar
+$ ./test 
+
+$ echo $?
+0
+```
+
+```bash
+$ cat test 
+#!/bin/bash
+set -euo pipefail
+echo $myvar
+$ ./test 
+./test: line 3: myvar: unbound variable
+$ echo $?
+1
+```
+
+Si queremos usar una variable que puede no estar definida podemos usar `${myvar:-default}`. Por
+ejemplo
+
+```bash
+$ cat test 
+#!/bin/bash
+set -euo pipefail
+echo ${myvar:-hello world}
+$ ./test 
+hello world
+$ echo $?
+0
+```
+
+```bash
+$ cat test 
+#!/bin/bash
+set -euo pipefail
+myvar="foo"
+echo ${myvar:-hello world}
+$ ./test 
+foo
+$ echo $?
+0
+```
+
+# Tarea
+
