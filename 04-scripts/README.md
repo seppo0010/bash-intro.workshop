@@ -22,7 +22,7 @@ Para ver los permisos de un archivo podemos usar `ls -l`
 ```bash
 $ touch file
 $ chmod 000 file
-$ ls -l file 
+$ ls -l file
 ---------- 1 sebastianwaisbrot sebastianwaisbrot 0 jun 27 15:18 file
 ```
 
@@ -118,24 +118,24 @@ rm -rf expected-dir
 Algo parecido pasa con los pipes. Si hacemos `cmd1 |cmd2` y `cmd1` falla el error se pierde.
 
 ```bash
-$ cat test 
+$ cat test
 #!/bin/bash
 set -e
 ls non-existant|cat
 echo "todo bien"
-$ ./test 
+$ ./test
 ls: cannot access 'non-existant': No such file or directory
 todo bien
 ```
 
 ```bash
-$ cat test 
+$ cat test
 #!/bin/bash
 set -e
 set -o pipefail
 ls non-existant|cat
 echo "todo bien"
-$ ./test 
+$ ./test
 ls: cannot access 'non-existant': No such file or directory
 ```
 
@@ -146,22 +146,22 @@ está bien pero a veces no, especialmente si metimos un typo en el nombre de la 
 Entonces se puede hacer que el script falle si se usa una variable no definida.
 
 ```bash
-$ cat test 
+$ cat test
 #!/bin/bash
 set -eo pipefail
 echo $myvar
-$ ./test 
+$ ./test
 
 $ echo $?
 0
 ```
 
 ```bash
-$ cat test 
+$ cat test
 #!/bin/bash
 set -euo pipefail
 echo $myvar
-$ ./test 
+$ ./test
 ./test: line 3: myvar: unbound variable
 $ echo $?
 1
@@ -171,27 +171,90 @@ Si queremos usar una variable que puede no estar definida podemos usar `${myvar:
 ejemplo
 
 ```bash
-$ cat test 
+$ cat test
 #!/bin/bash
 set -euo pipefail
 echo ${myvar:-hello world}
-$ ./test 
+$ ./test
 hello world
 $ echo $?
 0
 ```
 
 ```bash
-$ cat test 
+$ cat test
 #!/bin/bash
 set -euo pipefail
 myvar="foo"
 echo ${myvar:-hello world}
-$ ./test 
+$ ./test
 foo
 $ echo $?
 0
 ```
 
+## Link simbólicos
+
+En UNIX hay archivos especiales que son links simbólicos. Estos archivos no tienen un contenido
+propio sino que redirigen a otro archivo. Se crean con `ln -s <target> <source>`
+
+```bash
+$ echo hello > file1 # creo file1
+$ ln -s file1 file2 # creo file2 apuntando a file1
+$ cat file2 # verifico que file2 apunta a file1
+hello
+$ ls -l # en ls aparecen vinculados
+total 4
+-rw-rw-r-- 1 sebastianwaisbrot sebastianwaisbrot 6 jul  4 12:21 file1
+lrwxrwxrwx 1 sebastianwaisbrot sebastianwaisbrot 5 jul  4 12:21 file2 -> file1
+$ echo helloooo >> file2 # escribir en file2 modifica file1
+$ ls -l
+total 4
+-rw-rw-r-- 1 sebastianwaisbrot sebastianwaisbrot 15 jul  4 12:21 file1
+lrwxrwxrwx 1 sebastianwaisbrot sebastianwaisbrot  5 jul  4 12:21 file2 -> file1
+$ cat file1 # verifico que se escribió
+hello
+helloooo
+$ rm file1
+$ ls -l # aún habiendo borrado file1, file2 sigue existiendo apuntando a un archivo que ya no existe
+total 0
+lrwxrwxrwx 1 sebastianwaisbrot sebastianwaisbrot 5 jul  4 12:21 file2 -> file1
+$ cat file2 # aunque file2 existe, como file1 no existe más, al tratar de leerlo dice que no existe
+cat: file2: No such file or directory
+```
+
+## Subcomandos
+
+Si queremos dentro de un script ejecutar un comando y guardar su salida se puede hacer usando
+`$(subcommand)`. Por ejemplo
+
+```bash
+$ chars=$(echo hello|wc -c)
+$ echo $chars
+6
+$ if [ $chars -gt 3 ]; then echo "longer than 3"; fi
+longer than 3
+```
+
+## Expresiones regulares
+
+Una expresión regular sirve para ver si un texto cumple con un formato determinado.
+En esta página se pueden probar distintas opciones: https://regex101.com/r/AlxVE6/2
+
+Se puede verificar si un valor cumple con una expresión regular usando esta forma
+`[[ valor =~ regex ]]`.
+
+```bash
+$ if [[ hel.lo =~ ^[A-Za-z0-9]+$ ]]; then echo alphanumeric; fi
+$ if [[ hello =~ ^[A-Za-z0-9]+$ ]]; then echo alphanumeric; fi
+alphanumeric
+```
+
 # Tarea
 
+## Cambiar comportamiento por nombre de script
+
+Hacer un script que si se lo invoca como `fizz <num>` escriba "ok" si `num` es múltiplo de 3, si
+se lo invoca como `buzz <num>` escriba "ok" si `num` es múltiplo de 5 y si se lo llama
+`fizzbuzz <num>` escriba "ok" si es múltiplo de ambos 3 y 5. Tiene que ser un sólo script que cambie
+su comportamiento según cómo se invoca.
