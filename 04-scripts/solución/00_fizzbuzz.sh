@@ -2,7 +2,7 @@
 set -euo pipefail
 
 filename="$(basename $0)"
-num=$1
+num=${1:-}
 if [ $# -ne 1 ] || ! [[ $1 =~ ^[0-9]+$ ]] || ! [[ $filename =~ ^(fizz|buzz|fizzbuzz)$ ]]; then
     echo "usage: fizz <num>" 2>&1
     echo "usage: buzz <num>" 2>&1
