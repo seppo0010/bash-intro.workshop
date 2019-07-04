@@ -258,3 +258,22 @@ Hacer un script que si se lo invoca como `fizz <num>` escriba "ok" si `num` es m
 se lo invoca como `buzz <num>` escriba "ok" si `num` es múltiplo de 5 y si se lo llama
 `fizzbuzz <num>` escriba "ok" si es múltiplo de ambos 3 y 5. Tiene que ser un sólo script que cambie
 su comportamiento según cómo se invoca.
+
+```bash
+$ ls -l
+total 4
+-rwxrwxr-x 1 sebastianwaisbrot sebastianwaisbrot 517 jul  4 12:57 00_fizzbuzz.sh
+lrwxrwxrwx 1 sebastianwaisbrot sebastianwaisbrot  14 jul  4 12:36 buzz -> 00_fizzbuzz.sh
+lrwxrwxrwx 1 sebastianwaisbrot sebastianwaisbrot  14 jul  4 12:36 fizz -> 00_fizzbuzz.sh
+lrwxrwxrwx 1 sebastianwaisbrot sebastianwaisbrot  14 jul  4 12:37 fizzbuzz -> 00_fizzbuzz.sh
+$ ./00_fizzbuzz.sh 1
+usage: fizz <num>
+usage: buzz <num>
+usage: fizzbuzz <num>
+$ ./fizz 3
+OK
+$ ./fizz 5
+$ ./buzz 3
+$ ./buzz 5
+OK
+```
