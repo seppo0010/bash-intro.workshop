@@ -277,3 +277,10 @@ $ ./buzz 3
 $ ./buzz 5
 OK
 ```
+
+## Servir el contenido del directorio actual en un puerto determinado
+
+Se puede usar `python -m SimpleHTTPServer [port]` para servir el contenido del directorio actual
+en un servidor web. Hacer un script que reciba un puerto opcionalmente y levante un servidor en
+ese puerto. Si el puerto es menor a 1024 necesita `sudo` para correr. Por defecto debe correr en
+el puerto 80.
