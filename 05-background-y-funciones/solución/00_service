@@ -20,9 +20,14 @@ function is_service_running() {
     ps "$pid" > /dev/null
 }
 
-if [ $# -ne 2 ] && ! ( [ $# -eq 1 ] && [ $1 == "list" ] ) ; then
+if [ $# -ne 2 ] && ! ( [ $# -eq 1 ] && [ $1 == "list" ] ) && ! ( [ $# -eq 1 ] && [ $1 == "--help" ] ) ; then
     show_usage
     exit 1
+fi
+
+if [ $1 == "--help" ]; then
+    show_usage
+    exit 0
 fi
 
 if [ $1 == "list" ]; then
@@ -39,6 +44,10 @@ fi
 
 case "$2" in
     start)
+        if is_service_running $service; then
+            echo "$service is already running"
+            exit 1
+        fi
         "$services_dir/$service" >> $log_dir/$service.out 2>> $log_dir/$service.err &
         echo $! > $pid_dir/services-$service.pid
         if is_service_running $service; then
@@ -67,11 +76,11 @@ case "$2" in
 
         counter=0
         while ps "$pid" > /dev/null; do
-            counter=$(($counter + 1))
-            if $(($counter >= 10)); then
+            counter="$(($counter + 1))"
+            if [ ${counter:-0} -gt 10 ]; then
                 kill -9 $pid
             fi
-            if $(($counter >= 20)); then
+            if [ ${counter:-0} -gt 20 ]; then
                 echo "failed to stop $service" 2>&1
                 exit 1
             fi

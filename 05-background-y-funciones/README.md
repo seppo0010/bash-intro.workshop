@@ -160,3 +160,106 @@ function print_first() {
 }
 print_first first second third
 ```
+
+# Tarea
+
+## Hacer un service manager simplificado
+
+Un service manager se encarga de iniciar, detener y mostrar el estado de distintos servicios. En
+Ubuntu por ejemplo viene uno que podemos ver con comandos como `service networking status`.
+
+Cada ejecutable del directorio `services` es un programa que queremos ofrecer como servicio. La idea
+es crear un programa `service` que se encargue de manejar estos servicios. Cada servicio puede
+estar corriendo o no en un momento, y desde `service` se debe poder frenar o iniciar
+respectivamente.
+
+### `service --help`
+
+Ayuda de cómo usar este programa
+
+```bash
+$ ./service --help
+usage: ./service <service> [start|stop|status]
+usage: ./service list
+$
+```
+
+### `service list`
+
+Tiene que mostrar una lista de servicios disponibles
+
+```bash
+$ ./service list
+service: connection-checker
+service: home-web-server
+service: vpn-checker
+$
+```
+
+### `service <service> status`
+
+Muestra si un programa está corriendo o no
+
+```bash
+$ ./service vpn-checker status
+vpn-checker is not running
+$
+```
+o
+
+```bash
+$ ./service vpn-checker status
+vpn-checker is running
+$
+```
+
+### `service <service> start`
+
+Inicia el servicio. Guarda el PID en `/tmp/services-$service.pid`. Guarda el standard output del
+programa en `/var/log/services/$service.out` y el standard error en
+`/var/log/services/$service.err`.
+
+```bash
+$ ./service vpn-checker start
+vpn-checker started
+```
+
+### `service <service> stop`
+
+Frena el servicio. Borra el _pidfile_.
+
+```bash
+$ ./service vpn-checker stop
+vpn-checker stopped
+```
+
+### Casos inesperados
+
+#### Parámetros incorrectos
+
+Si el nombre del servicio o los parámetros no corresponden hay que mostrar un mensaje de error
+indicando el problema y salir con un código de error.
+
+#### Proceso no arranca
+
+Si se inicia el servicio pero el programa sale inmediatamente hay que mostrarlo cuando se quiere
+arrancar.
+
+```bash
+$ ./service bad-service start
+bad-service failed to start
+```
+
+#### Proceso no se detiene
+
+Para detener un proceso se manda una señal `TERM` que le indica que salga. El programa puede no
+salir, en ese caso se puede mandar una señal `KILL` que fuerza a salir.
+
+```bash
+$ time ./service unstoppable stop
+unstoppable stopped
+./service unstoppable stop  0,11s user 0,25s system 14% cpu 2,571 total
+```
+
+No se ve cómo salió pero sí que tardó. Los primeros dos segundos fueron esperando que la señal
+`TERM` haga salir al programa, después de un tiempo le mandamos un `KILL`.
