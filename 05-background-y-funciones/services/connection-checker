@@ -1,0 +1,30 @@
+#!/bin/bash
+set -euo pipefail
+
+filename="$(basename $0)"
+online_message="now online"
+offline_message="now offline"
+ip=${1:-"1.1.1.1"}
+if [ $filename == "vpn-checker" ]; then
+    ip="10.2.7.6"
+    online_message="vpn connected"
+    offline_message="vpn disconnected"
+fi
+
+was_online=1
+while true; do
+    set +e
+    ping "$ip" -c 1 -W 3
+    ping_status=$?
+    set -e
+    is_online=$(($ping_status == 0))
+    if [ $was_online != $is_online ]; then
+        if [ "$is_online" -eq 1 ]; then
+            notify-send "$online_message"
+        else
+            notify-send "$offline_message"
+        fi
+    fi
+    was_online=$is_online
+    sleep 1
+done

@@ -1,0 +1,87 @@
+#!/bin/bash
+set -euo pipefail
+
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+services_dir="$dir/services"
+pid_dir=/tmp
+log_dir=/var/log/services
+
+function show_usage() {
+    echo "usage: $0 <service> [start|stop|status]" 2>&1
+    echo "usage: $0 list" 2>&1
+}
+
+function is_service_running() {
+    service=$1
+    if ! [ -f $pid_dir/services-$service.pid ]; then
+        return 1
+    fi
+    pid=$(cat $pid_dir/services-$service.pid)
+    ps "$pid" > /dev/null
+}
+
+if [ $# -ne 2 ] && ! ( [ $# -eq 1 ] && [ $1 == "list" ] ) ; then
+    show_usage
+    exit 1
+fi
+
+if [ $1 == "list" ]; then
+    for service in $(ls $services_dir); do echo "service: $service"; done
+    exit 0
+fi
+
+service=$1
+
+if ! [ -f "$services_dir/$service" ]; then
+    echo "unknown service: $service" 2>&1
+    exit 1
+fi
+
+case "$2" in
+    start)
+        "$services_dir/$service" >> $log_dir/$service.out 2>> $log_dir/$service.err &
+        echo $! > $pid_dir/services-$service.pid
+        if is_service_running $service; then
+            echo "$service started"
+        else
+            echo "$service failed to start"
+        fi
+        exit 0
+        ;;
+    status)
+        if is_service_running $service; then
+            echo "$service is running"
+        else
+            echo "$service is not running"
+        fi
+
+        exit 0
+        ;;
+    stop)
+        if ! is_service_running $service; then
+            echo "$service is not running"
+            exit 0
+        fi
+        pid=$(cat $pid_dir/services-$service.pid)
+        kill $pid
+
+        counter=0
+        while ps "$pid" > /dev/null; do
+            counter=$(($counter + 1))
+            if $(($counter >= 10)); then
+                kill -9 $pid
+            fi
+            if $(($counter >= 20)); then
+                echo "failed to stop $service" 2>&1
+                exit 1
+            fi
+            sleep 0.2
+        done
+        echo "$service stopped"
+        rm -f $pid_dir/services-$service.pid
+        exit 0
+        ;;
+    *)
+        show_usage
+        exit 1
+esac
