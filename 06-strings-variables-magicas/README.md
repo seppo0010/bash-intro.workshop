@@ -112,7 +112,7 @@ así que hay que agregarlos en este script.
 
 # Tarea
 
-## Buscar directorio en $PATH
+## Buscar directorio en `$PATH`
 
 Hacer una función que reciba una ruta y decir si está en `$PATH`. _Hint:_ `read` soporta un
 parámetro `-d` para delimitador.
