@@ -93,6 +93,22 @@ wc < 02-subcomandos/README.md
   86  428 2543
 ```
 
+También se puede usar `<<` para un _here-document_ que lee hasta encontrar un indicador de final
+del documento, y `<<<` para un _here-string_ que lee hasta terminar el string, y esto se manda al
+_stdin_ del programa.
+
+```bash
+$ wc <<EOF
+> read
+> until
+> find
+> EOF
+ 3  3 16
+$ wc <<<"read one string"
+ 1  3 16
+>>>
+```
+
 ## Código de salida
 
 Cuando un programa termina de ejecutarse pudo haber concluído con éxito o no. Esto se indica por
