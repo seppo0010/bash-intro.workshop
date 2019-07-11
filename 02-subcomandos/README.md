@@ -106,7 +106,7 @@ $ wc <<EOF
  3  3 16
 $ wc <<<"read one string"
  1  3 16
->>>
+$
 ```
 
 ## Código de salida
