@@ -1,4 +1,4 @@
-# Strings y variables mágicas
+# Strings, variables mágicas y archivos especiales
 
 ## Strings
 
@@ -96,3 +96,16 @@ $ /bin/ls
 file2  ls  testing
 $
 ```
+
+## Archivos especiales
+
+### `$HOME/.profile`
+
+Este archivo se ejecuta cuando se inicia un nuevo shell. Suele contener cambios en variables de
+entorno, como agregar directorios a `$PATH`.
+
+### `$HOME/.bashrc`
+
+Este archivo se ejecuta cuando se inicia un subshell. Las variables de entorno son heredadas así
+que si fueron agregadas en `.profile` no es necesario hacerlo acá. Los aliases no se copian
+así que hay que agregarlos en este script.
