@@ -302,3 +302,5 @@ unstoppable stopped
 
 No se ve cómo salió pero sí que tardó. Los primeros dos segundos fueron esperando que la señal
 `TERM` haga salir al programa, después de un tiempo le mandamos un `KILL`.
+
+[Siguiente](../06-strings-variables-magicas)
