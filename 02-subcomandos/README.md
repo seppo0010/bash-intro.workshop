@@ -153,3 +153,5 @@ Cada un segundo mostrar la hora actual con un 50% de probabilidad.
 `while true; do statements; done` se puede hacer un loop infinito. Con `date` se puede imprimir la
 fecha. La variable `RANDOM` tiene un valor diferente cada vez que se lee en el rango de 0 a 32767.
 Para que sea sólo una vez por segundo se puede usar la función `sleep`.
+
+[Siguiente](../03-utilitarios)
