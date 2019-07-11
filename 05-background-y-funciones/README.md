@@ -161,6 +161,29 @@ function print_first() {
 print_first first second third
 ```
 
+### Testear archivos
+
+Se puede usar como condición de un `if` que un archivo exista, o directorio exista, o que sea
+ejecutable.
+
+```bash
+$ file=/bin/bash
+$ if [ -f "$file" ]; then echo $file exists; fi
+/bin/bash exists
+$ if [ -x "$file" ]; then echo $file is executable; fi
+/bin/bash is executable
+$ if [ -d "$file" ]; then echo $file is a directory; fi
+$ file=/bin
+$ if [ -f "$file" ]; then echo $file exists; fi
+$ if [ -x "$file" ]; then echo $file is executable; fi
+/bin is executable
+$ if [ -d "$file" ]; then echo $file is a directory; fi
+/bin is a directory
+$
+```
+
+Hay más opciones disponibles que se pueden ver en `man [`.
+
 # Tarea
 
 ## Hacer un service manager simplificado

@@ -37,7 +37,7 @@ fi
 
 service=$1
 
-if ! [ -f "$services_dir/$service" ]; then
+if ! [ -x "$services_dir/$service" ]; then
     echo "unknown service: $service" 2>&1
     exit 1
 fi
