@@ -1,4 +1,4 @@
-# Background y funciones
+# Background, funciones y aliases
 
 ## Background
 
@@ -183,6 +183,17 @@ $
 ```
 
 Hay más opciones disponibles que se pueden ver en `man [`.
+
+## Aliases
+
+Si queremos hacer una función muy sencilla podemos simplemente hacer un alias. Por ejemplo
+
+```bash
+$ alias st='git status --short'
+$ st
+ M 05-background-y-funciones/README.md
+$
+```
 
 # Tarea
 
