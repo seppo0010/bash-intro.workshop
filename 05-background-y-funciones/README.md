@@ -240,6 +240,11 @@ vpn-checker stopped
 Si el nombre del servicio o los parámetros no corresponden hay que mostrar un mensaje de error
 indicando el problema y salir con un código de error.
 
+#### PID apunta a un proceso que no existe
+
+El PID del PID file puede no existir más (por ejemplo si el proceso se termino). En ese caso el
+estado debería ser detenido.
+
 #### Proceso no arranca
 
 Si se inicia el servicio pero el programa sale inmediatamente hay que mostrarlo cuando se quiere
