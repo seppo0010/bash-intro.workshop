@@ -35,3 +35,5 @@ tr A-Z a-z < hamlet.txt | tr -sc a-z '\n' | sort | uniq -c | sort -rn | head
 
 Por supuesto es más legible, aún sin saber Python, la primera respuesta que la segunda pero se ve
 que esta última es bastante más concisa.
+
+[Siguiente](01-control-variables-matemática)
